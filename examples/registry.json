@@ -1,0 +1,40 @@
+{
+  "schema": "loop-deck-registry/1",
+  "generated_at": "2026-10-13T20:00:00Z",
+  "source": "example harness adapter 0.1 (worked example)",
+  "loops": [
+    {
+      "slug": "autonomy-loop",
+      "name": "Autonomy loop",
+      "kind": "loop",
+      "owner": "/agent/loop.sh (AUTONOMY_LOOP_INTERVAL=300)",
+      "cadence_s": 300,
+      "tags": ["harness-autonomy-loop"],
+      "enabled": true,
+      "depends_on": [],
+      "runbook_md": "Stop: `touch /wd/loop/STOP`. Resume: remove the flag; loop-start.sh relaunches. Logs: /wd/loop/loop.log and /wd/loop/fires/fire-N.out."
+    },
+    {
+      "slug": "slack-watch",
+      "name": "Slack watch",
+      "kind": "watch",
+      "owner": "/agent/slack-watch.sh (one poll per autonomy fire)",
+      "cadence_s": 300,
+      "tags": ["harness-slack-watch"],
+      "enabled": true,
+      "depends_on": ["autonomy-loop"],
+      "runbook_md": "Stamp: /wd/slack/last-watch (`TS new=N replies=N inbox=N`). A stale stamp means the autonomy loop is not firing."
+    },
+    {
+      "slug": "hindsight-seed",
+      "name": "Hindsight seed",
+      "kind": "seed",
+      "owner": "/agent/hindsight-seed.sh (one-shot at startup)",
+      "cadence_s": null,
+      "tags": ["harness-hindsight-seed"],
+      "enabled": true,
+      "depends_on": [],
+      "runbook_md": "Stamp: /wd/hindsight-seed.stamp (`seeded_at=`, `items=`, `bank:<name>=N`). Re-seed by removing the stamp and restarting."
+    }
+  ]
+}

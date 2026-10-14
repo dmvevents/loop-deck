@@ -1,0 +1,4 @@
+{"ts": "2026-10-13T16:44:51Z", "tag": "harness-autonomy-loop", "rc": 0, "dur_s": 43}
+{"ts": "2026-10-13T16:49:58Z", "tag": "harness-autonomy-loop", "rc": 97, "dur_s": 61, "note": "outcome=no-credentials"}
+{"ts": "2026-10-13T17:28:25Z", "tag": "harness-slack-watch", "rc": 0, "dur_s": null, "note": "stamp: new=0 replies=1 inbox=1"}
+{"ts": "2026-10-13T07:13:24Z", "tag": "harness-hindsight-seed", "rc": 0, "dur_s": null, "note": "stamp: items=276"}

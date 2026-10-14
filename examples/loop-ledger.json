@@ -1,0 +1,7 @@
+{
+  "schema": "loop-deck-ledger/1",
+  "max_attempts": 3,
+  "items": {
+    "autonomy-loop:fire-12": {"attempts": 3, "last_ts": "2026-10-13T17:10:00Z", "note": "timeout exit status 124"}
+  }
+}

@@ -1,0 +1,3 @@
+# Written by the release cut: running the tests creates these beside the tree.
+.tmp/
+__pycache__/

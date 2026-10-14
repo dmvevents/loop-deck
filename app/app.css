@@ -1,0 +1,181 @@
+/* Loop Deck — dark ops console. Tokens per the Deck design study (palette validated). */
+:root {
+  --surface: #0d1117; --card: #161b22; --card2: #1c2129; --border: #30363d;
+  --ink: #e6edf3; --muted: #8b949e; --faint: #6e7681;
+  --green: #2ea043; --amber: #e3b341; --red: #f85149; --blue: #4493f8;
+  --gray: #8b949e; --accent: #a371f7;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box }
+html { scrollbar-color: var(--border) var(--surface) }
+body {
+  margin: 0; background: var(--surface); color: var(--ink);
+  font: 14px/1.5 var(--sans);
+}
+a { color: var(--blue); text-decoration: none } a:hover { text-decoration: underline }
+code, .mono { font-family: var(--mono); font-size: 12.5px }
+code { background: var(--card2); padding: 1px 5px; border-radius: 4px; word-break: break-all }
+
+/* ---------- top bar ---------- */
+#topbar {
+  position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 18px;
+  padding: 10px 20px; background: rgba(13,17,23,.92); backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border); flex-wrap: wrap;
+}
+.wordmark { font: 700 15px var(--mono); letter-spacing: 2.5px; white-space: nowrap }
+.wordmark .dim { color: var(--muted); font-weight: 400 }
+.hero { display: flex; align-items: baseline; gap: 8px }
+.hero .pct { font: 700 26px/1 var(--mono) }
+.hero .sub { color: var(--muted); font-size: 12px }
+.pill {
+  margin-left: auto; font: 11.5px var(--mono); color: var(--muted);
+  border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; white-space: nowrap;
+}
+.pill.warn { color: var(--amber); border-color: var(--amber) }
+.pill.bad { color: var(--red); border-color: var(--red) }
+
+#driftbar .banner { margin: 0; border-radius: 0; border-left: 0; border-right: 0 }
+.banner { padding: 9px 20px; font-weight: 600; border: 1px solid; margin: 12px 0; border-radius: 8px }
+.banner.ok { background: #2ea04318; color: var(--green); border-color: #2ea04355 }
+.banner.bad { background: #f8514918; color: var(--red); border-color: #f8514955 }
+.banner ul { font-weight: 400; margin: 6px 0 0 18px; color: var(--ink) }
+
+/* ---------- tabs ---------- */
+#tabs { display: flex; gap: 2px; padding: 8px 20px 0; border-bottom: 1px solid var(--border);
+        overflow-x: auto; scrollbar-width: none }
+#tabs a { color: var(--muted); padding: 7px 13px; border-radius: 8px 8px 0 0; font-size: 13px;
+          white-space: nowrap; border: 1px solid transparent }
+#tabs a:hover { color: var(--ink); text-decoration: none; background: var(--card) }
+#tabs a.on { color: var(--ink); background: var(--card); border-color: var(--border);
+             border-bottom-color: var(--card); font-weight: 600 }
+
+main { max-width: 1280px; margin: 0 auto; padding: 18px 20px 40px; outline: none }
+h2 { font-size: 17px; margin: 26px 0 10px } h3 { font-size: 14px; margin: 20px 0 8px }
+.mut { color: var(--muted); font-size: 12px }
+.quiet { color: var(--muted); padding: 22px; text-align: center; border: 1px dashed var(--border);
+         border-radius: 8px; margin: 12px 0 }
+
+/* ---------- stat tiles ---------- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0 }
+.tile { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+        padding: 12px 14px; position: relative; overflow: hidden }
+.tile .n { font: 700 24px/1.15 var(--mono) }
+.tile .l { color: var(--muted); font-size: 11.5px; margin-top: 3px }
+.tile .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 3px }
+
+/* ---------- chips ---------- */
+.chip { display: inline-block; padding: 1px 8px; border-radius: 10px; font: 600 11px var(--mono);
+        white-space: nowrap; border: 1px solid }
+.chip.GREEN, .chip.LIVE { color: var(--green); background: #2ea04320; border-color: #2ea04355 }
+.chip.STALE { color: var(--amber); background: #e3b34120; border-color: #e3b34155 }
+.chip.RED   { color: var(--red); background: #f8514920; border-color: #f8514955 }
+.chip.SCHED { color: var(--blue); background: #4493f820; border-color: #4493f855 }
+.chip.NA    { color: var(--gray); background: #8b949e20; border-color: #8b949e55 }
+.chip.UNKNOWN { color: var(--gray); background: #8b949e20; border-color: #8b949e55; border-style: dashed }
+.chip.NO-DATA, .chip.DISABLED { color: var(--gray); background: transparent; border-color: #8b949e55 }
+.aut { font: 600 10.5px var(--mono); color: var(--accent); border: 1px solid #a371f755;
+       background: #a371f715; border-radius: 4px; padding: 0 5px }
+
+/* ---------- tables ---------- */
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 8px 0 }
+th, td { border: 1px solid var(--border); padding: 6px 9px; text-align: left; vertical-align: top }
+th { background: var(--card); font-weight: 600; white-space: nowrap; user-select: none }
+th.sort { cursor: pointer } th.sort:hover { color: var(--blue) }
+tr.rowlink { cursor: pointer }
+tr.rowlink:hover td, tr.rowlink:focus td { background: var(--card2) }
+td.num { font-family: var(--mono); text-align: right; white-space: nowrap }
+
+/* ---------- filter row ---------- */
+.filters { display: flex; gap: 8px; margin: 12px 0; flex-wrap: wrap }
+.filters select, .filters input {
+  background: var(--card); color: var(--ink); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 9px; font: 12.5px var(--sans);
+}
+.filters input { flex: 1; min-width: 160px }
+
+/* ---------- attention list ---------- */
+.attn { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 12px 0 }
+.attn .row { display: flex; gap: 12px; align-items: center; padding: 9px 14px;
+             border-bottom: 1px solid var(--border); flex-wrap: wrap }
+.attn .row:last-child { border-bottom: 0 }
+.attn .row:hover { background: var(--card) }
+.attn .why { color: var(--muted); font: 11.5px var(--mono); flex: 1; min-width: 200px }
+
+/* ---------- group cards ---------- */
+.gcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px }
+.gcard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px }
+.gcard h4 { margin: 0 0 6px; font-size: 13px }
+.gcard .mini { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px }
+
+/* ---------- uptime strip (shape + color: full=GREEN, half=STALE, notched=RED) ---------- */
+.strip { display: inline-flex; align-items: flex-end; gap: 1px; height: 16px; vertical-align: middle }
+.cell { width: 5px; border-radius: 1px; height: 100% }
+.cell.G, .cell.L { background: var(--green) }
+.cell.S { background: var(--amber); height: 50% }
+.cell.R { background: var(--red); border: 1px solid var(--surface); border-style: dashed }
+.cell.C { background: var(--blue); height: 70% }
+.cell.N { background: var(--faint); height: 30% }
+.cell.U { background: var(--gray); height: 50%; opacity: .6 }   /* UNKNOWN observation */
+.cell.E { background: var(--faint); height: 15% }                 /* NO-DATA (harness) */
+.cell.D { background: var(--faint); height: 15%; opacity: .45 }  /* DISABLED (harness) */
+
+/* ---------- detail page ---------- */
+.idgrid { display: grid; grid-template-columns: 130px 1fr; gap: 6px 14px; background: var(--card);
+          border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-size: 12.5px }
+.idgrid .k { color: var(--muted); font: 11px var(--mono); text-transform: uppercase; letter-spacing: .5px }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 }
+button.act { background: var(--card); color: var(--ink); border: 1px solid var(--border);
+             border-radius: 6px; padding: 6px 11px; font: 12px var(--mono); cursor: pointer;
+             transition: border-color .12s }
+button.act:hover { border-color: var(--blue); color: var(--blue) }
+button.act.danger:hover { border-color: var(--red); color: var(--red) }
+.copied { color: var(--green) !important; border-color: var(--green) !important }
+
+/* ---------- charts ---------- */
+.chart { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+         padding: 12px; margin: 10px 0 }
+svg { display: block; width: 100% }
+.axis { stroke: var(--border); stroke-width: 1 }
+.gridline { stroke: var(--card2); stroke-width: 1 }
+.expected { stroke: var(--faint); stroke-width: 1; opacity: .5 }
+.fire { stroke: var(--accent); stroke-width: 2 }
+.hline { stroke: var(--accent); stroke-width: 2; fill: none }
+.harea { fill: #a371f71a }
+.lab { fill: var(--muted); font: 10px var(--mono) }
+.crosshair { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3 }
+
+/* burn bar (breakers) */
+.burn { display: inline-flex; gap: 2px; vertical-align: middle }
+.burn i { width: 16px; height: 8px; border-radius: 2px; background: var(--card2);
+          border: 1px solid var(--border) }
+.burn i.hot { background: var(--red); border-color: var(--red) }
+.burn i.warm { background: var(--amber); border-color: var(--amber) }
+
+#tooltip { position: fixed; z-index: 50; background: var(--card2); border: 1px solid var(--border);
+           border-radius: 6px; padding: 6px 9px; font: 11.5px var(--mono); color: var(--ink);
+           pointer-events: none; max-width: 380px; box-shadow: 0 4px 14px #0008 }
+
+/* ---------- A2 live actions (deck-server /act) ---------- */
+button.act.live { border-color: #a371f755; color: var(--accent) }
+button.act.live:hover { border-color: var(--accent) }
+button.act.live.danger { border-color: #f8514955; color: var(--red) }
+button.act.live.danger:hover { border-color: var(--red); color: var(--red) }
+#toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 60;
+         background: var(--card2); border: 1px solid var(--border); border-radius: 8px;
+         padding: 9px 14px; font: 12.5px var(--mono); max-width: 90vw;
+         box-shadow: 0 6px 18px #000a }
+#toast.ok { border-color: var(--green); color: var(--green) }
+#toast.bad { border-color: var(--red); color: var(--red) }
+
+.mermaid { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+           padding: 10px; overflow-x: auto }
+footer { max-width: 1280px; margin: 0 auto; padding: 14px 20px 28px; color: var(--muted);
+         font-size: 12px; border-top: 1px solid var(--border) }
+
+@media (max-width: 700px) {
+  #topbar { gap: 10px } .hero .pct { font-size: 20px }
+  main { padding: 12px 10px 32px }
+  .idgrid { grid-template-columns: 1fr }
+  .tablewrap { overflow-x: auto }
+}
