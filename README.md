@@ -3,7 +3,17 @@
 Loop Deck is a loopback-only observability console for scheduled automation loops. It has three parts:
 a static single-page app (`app/`), a generator that writes `out/status.json` and appends `out/history.jsonl`
 (`generate-loop-viz.py`), and a same-origin server for the page plus a gated `POST /act` endpoint
-(`deck-server.py`). This tree is Loop Deck 1.7.0.
+(`deck-server.py`). This tree is Loop Deck 1.7.1.
+
+## Release notes
+
+Loop Deck 1.7.1:
+
+- `generate-loop-viz.py` no longer runs commands through a shell. In fleet mode it ran `crontab -l` and `git -C <checkout> show origin/master:STATE.md` through `/bin/sh` (`subprocess.run(..., shell=True)`), so a space in the checkout path split it and a `$(...)` in it ran. Its `sh()` helper now takes an argument list and starts each program directly. Both commands print the same output as before; the dropped `2>/dev/null` only discarded stderr, which the helper already captured and ignored.
+- Harness mode, the supported mode of this tree, runs neither command. The page (`app/`), the data contract (`docs/CONTRACT.md`) and the examples are unchanged from 1.7.0, and `deck-server.py` changes only its version (`/__version` answers `1.7.1`), so upgrading means replacing the tree.
+- New test: `tests/test_no_shell.py` fails if a shipped program starts a shell again.
+- `LICENSE` now carries the full standard MIT text; the 1.7.0 copy stopped inside the warranty disclaimer and had no liability clause.
+- New file: `THIRD-PARTY-LICENSES` lists the runtime dependencies: none.
 
 ## Supported mode
 
@@ -74,6 +84,7 @@ Python runs every suite. node is an optional test dependency: without it on PATH
     python3 -I -B tests/test_deck_actions.py
     python3 -I -B tests/test_loop_deck_harness_mode.py
     python3 -I -B tests/test_loop_deck_spa.py
+    python3 -I -B tests/test_no_shell.py
     python3 -I -B tools/check-contract.py              # validate examples/ against docs/CONTRACT.md
     python3 -I -B tools/check-contract.py --self-test  # each planted defect must be rejected
 
@@ -82,15 +93,16 @@ Python runs every suite. node is an optional test dependency: without it on PATH
 | `tests/test_deck_actions.py` | 69 run, all pass |
 | `tests/test_loop_deck_harness_mode.py` | 21 run, 1 skipped by design: fleet-only suites are not part of this tree |
 | `tests/test_loop_deck_spa.py` | 8 run, all pass (with node on PATH) |
+| `tests/test_no_shell.py` | 6 run, all pass |
 | `tools/check-contract.py --self-test` | passes |
 
 ## Pinned source
 
-This tree was cut from the Loop Deck source at commit `3e076d50d86e18803ef1eb95434645878e8ba36f` (git tree `3be4761fd7424a1e6724391e7fbc9a7ba411ac29`).
+This tree was cut from the Loop Deck source at commit `4c878e19dc21c25280cbd80ac776393b01aa3794` (git tree `785afbda72872aceb6be94d95c4352da93df69c5`).
 It differs from that source only by a flat layout and declared scrub rules, and `RELEASE.json` carries the
 same pin (features at this revision: harness_mode=yes, act_token=yes, relative_urls=yes). Do not edit this tree by hand: changes are made at the
 source and the tree is cut again.
 
 ## License
 
-MIT License: see `LICENSE`, shipped unchanged from the source.
+MIT License: see `LICENSE`, shipped unchanged from the source. Runtime dependencies and their licenses: see `THIRD-PARTY-LICENSES`.

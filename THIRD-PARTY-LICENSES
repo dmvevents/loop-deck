@@ -1,0 +1,20 @@
+Loop Deck: third-party licenses
+
+Runtime dependencies: none.
+
+The Loop Deck programs (the server, the generator and the contract checker) import only the Python
+standard library (Python 3.9 or newer). The standard library comes with the Python interpreter under the
+Python Software Foundation License; no part of Python is included here. The page (index.html, app.js,
+app.css) bundles no third-party script, style sheet or font: it uses the system's own fonts, fetches
+only from the server's own origin, and loads mermaid.min.js only when an operator supplies it (below).
+
+Not included, optional at run time:
+
+  mermaid 11 (MIT License). If an operator places mermaid.min.js beside index.html in the served
+  directory, the page uses it to draw the Topology and Runbook diagrams. That copy is the operator's
+  and keeps its own license; without it the page shows each diagram's source.
+
+Not included, optional for the tests only:
+
+  node. When node is on PATH, the rendered page checks in tests/test_loop_deck_spa.py run the page's
+  app.js under node in a fake DOM; without it those checks skip. Running Loop Deck does not need node.

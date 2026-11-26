@@ -35,7 +35,7 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 
-VERSION = "1.7.0"
+VERSION = "1.7.1"
 REPO = os.path.dirname(os.path.abspath(__file__))
 PAUSE_FILE = os.environ.get("DECK_PAUSE_FILE", os.path.expanduser("~/.loop-deck/LOOP_PAUSE"))
 GATE = os.environ.get("DECK_GATE", os.path.join(REPO, "loop-gate.sh"))

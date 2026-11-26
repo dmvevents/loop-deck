@@ -43,9 +43,9 @@ LETTER = {"GREEN": "G", "LIVE": "L", "STALE": "S", "RED": "R", "SCHED": "C", "NA
 CHIP = {"GREEN": "#2ea043", "LIVE": "#2ea043", "STALE": "#e3b341", "RED": "#f85149",
         "SCHED": "#4493f8", "NA": "#8b949e", "UNKNOWN": "#8b949e"}
 
-def sh(cmd):
+def sh(argv):
     try:
-        return subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=20).stdout
+        return subprocess.run(list(argv), capture_output=True, text=True, timeout=20).stdout  # argv list, no shell
     except Exception:
         return ""
 
@@ -147,7 +147,7 @@ def syslog_fires():
 
 def parse_crontab(fires):
     entries = []
-    for line in sh("crontab -l").splitlines():
+    for line in sh(["crontab", "-l"]).splitlines():
         s = line.strip()
         if not s or s.startswith("#"):
             continue
@@ -750,7 +750,7 @@ def _generate():
     try:
         subprocess.run(["git", "-C", REPO, "fetch", "-q", "origin", "master"],
                        capture_output=True, timeout=25)
-        state_txt = sh(f"git -C {REPO} show origin/master:STATE.md 2>/dev/null")
+        state_txt = sh(["git", "-C", REPO, "show", "origin/master:STATE.md"])
     except Exception:
         pass
     if "Last run:" not in state_txt:
